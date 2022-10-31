@@ -3,6 +3,7 @@ package com.kashiflab.engine_notes.ui
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.kashiflab.engine_notes.data.models.Notes
@@ -19,7 +20,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
     private val mainViewModel : MainViewModel by viewModels()
 
-    private lateinit var note : Notes
+    private var note : Notes? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,27 +30,30 @@ class CreateNoteActivity : AppCompatActivity() {
         getPendingIntent()
 
         backBtn.setOnClickListener {
+            addUpdateNotes()
             onBackPressedDispatcher.onBackPressed()
         }
 
         saveNote.setOnClickListener {
-            if(note!=null){
-                note.modifiedBy = AppUtils.getDateTime()
-                note.modifiedOn = "Me"
-                note.title = noteTitle.text.trim().toString()
-                note.desc = noteDesc.text.trim().toString()
-                updateNote(note)
-            }else{
-                insertNote(noteTitle.text.trim().toString(), noteDesc.text.trim().toString(), AppUtils.getDateTime(), "Me")
-            }
+            addUpdateNotes()
+        }
+    }
 
+    private fun addUpdateNotes(){
+        if(note!=null){
+            note?.modifiedBy = AppUtils.getDateTime()
+            note?.modifiedOn = "Me"
+            note?.title = noteTitle.text.trim().toString()
+            note?.desc = noteDesc.text.trim().toString()
+            updateNote(note!!)
+        }else{
+            insertNote(noteTitle.text.trim().toString(), noteDesc.text.trim().toString(), AppUtils.getDateTime(), "Me")
         }
     }
 
     private fun updateNote(note: Notes){
         mainViewModel.updateNote(note)
 
-        Toast.makeText(this@CreateNoteActivity, "Updated", Toast.LENGTH_SHORT).show()
         onBackPressedDispatcher.onBackPressed()
     }
 
@@ -57,7 +61,6 @@ class CreateNoteActivity : AppCompatActivity() {
         val note = Notes(id= 0,title=title, desc = desc, createdOn = createdOn, createdBy = createdBy)
         mainViewModel.insertNote(note)
 
-        Toast.makeText(this@CreateNoteActivity, "Saved", Toast.LENGTH_SHORT).show()
         onBackPressedDispatcher.onBackPressed()
     }
 
@@ -74,8 +77,13 @@ class CreateNoteActivity : AppCompatActivity() {
 
     }
     private fun setData(){
-        noteTitle.setText(note.title)
-        noteDesc.setText(note.desc)
+        noteTitle.setText(note?.title)
+        noteDesc.setText(note?.desc)
+    }
+
+    override fun onBackPressed() {
+        addUpdateNotes()
+        super.getOnBackPressedDispatcher().onBackPressed()
     }
 
 }

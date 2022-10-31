@@ -9,7 +9,7 @@ interface NotesDao {
     @Insert
     suspend fun insertNote(note: Notes)
 
-    @Query("SELECT * FROM notes_table ORDER BY createdOn DESC")
+    @Query("SELECT * FROM notes_table ORDER BY createdOn ASC")
     suspend fun getAllNotes() : List<Notes>
 
     @Update

@@ -1,55 +1,41 @@
 package com.kashiflab.engine_notes.ui
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.kashiflab.engine_notes.data.models.Notes
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.kashiflab.engine_notes.R
 import com.kashiflab.engine_notes.databinding.ActivityMainBinding
-import com.kashiflab.engine_notes.ui.adapter.NotesAdapter
-import com.kashiflab.engine_notes.ui.adapter.OnNoteClickListener
-import com.kashiflab.engine_notes.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), OnNoteClickListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private lateinit var mainViewModel: MainViewModel
-
-    private lateinit var adapter: NotesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+//        supportActionBar?.hide();//Ocultar ActivityBar anterior
+        setSupportActionBar(toolbar)
 
-        adapter = NotesAdapter(emptyList(), this)
+        val navView: BottomNavigationView = binding.navView
 
-        noteRV.layoutManager = LinearLayoutManager(this)
-        noteRV.setHasFixedSize(true)
-        noteRV.adapter = adapter
-
-        mainViewModel.allNotes.observe(this, Observer {
-            if(it.isNotEmpty()){
-                adapter.setNotesList(it)
-            }
-        })
-
-        addNoteBtn.setOnClickListener {
-            startActivity(Intent(this, CreateNoteActivity::class.java))
-        }
-
-    }
-
-    override fun onNoteClick(note: Notes) {
-        startActivity(Intent(this, CreateNoteActivity::class.java).putExtra("note", note))
+        val navController = findNavController(R.id.nav_host_fragment_activity_main2)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 }
