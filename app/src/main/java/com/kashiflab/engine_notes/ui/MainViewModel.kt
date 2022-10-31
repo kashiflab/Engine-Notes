@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(private val repo: NotesRepository): View
         }
     }
 
-    fun getAllNotes(){
+    private fun getAllNotes(){
         viewModelScope.launch {
             repo.getNotes()
         }
