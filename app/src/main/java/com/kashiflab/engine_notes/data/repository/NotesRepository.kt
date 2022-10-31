@@ -19,6 +19,11 @@ class NotesRepository @Inject constructor(private val notesDB: NotesDB) {
         _allNotes.postValue(notes)
     }
 
+    suspend fun updateNote(note: Notes){
+        notesDB.noteDao().updateNote(note)
+        getNotes()
+    }
+
     suspend fun insertNote(notes: Notes){
         notesDB.noteDao().insertNote(notes)
         getNotes()

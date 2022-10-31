@@ -1,18 +1,17 @@
 package com.kashiflab.engine_notes.data.models
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 
 @Entity(tableName = "notes_table")
 data class Notes(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id")
     val id: Int,
-    val title: String,
-    val desc: String,
+    var title: String,
+    var desc: String,
 //    @Ignore
 //    @Relation(entity = Notes::class,parentColumn = "note_id",entityColumn = "note_id")
 //    val image: List<Image> = ArrayList(),
@@ -20,6 +19,6 @@ data class Notes(
 //    val checkList: List<Check>,
     val createdOn: String,
     val createdBy: String,
-    val modifiedBy: String = "",
-    val modifiedOn: String = "",
-)
+    var modifiedBy: String = "",
+    var modifiedOn: String = "",
+) : java.io.Serializable

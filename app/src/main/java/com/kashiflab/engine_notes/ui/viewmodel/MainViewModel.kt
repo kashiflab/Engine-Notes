@@ -1,4 +1,4 @@
-package com.kashiflab.engine_notes.ui
+package com.kashiflab.engine_notes.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +17,12 @@ class MainViewModel @Inject constructor(private val repo: NotesRepository): View
 
     init {
         getAllNotes()
+    }
+
+    fun updateNote(note: Notes){
+        viewModelScope.launch {
+            repo.updateNote(note)
+        }
     }
 
     fun insertNote(note: Notes){

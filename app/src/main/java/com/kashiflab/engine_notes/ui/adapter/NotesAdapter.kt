@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kashiflab.engine_notes.R
 import com.kashiflab.engine_notes.data.models.Notes
 
-class NotesAdapter(private var notes: List<Notes>) :
+class NotesAdapter(private var notes: List<Notes>, private val listener: OnNoteClickListener) :
     RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title)
@@ -40,6 +40,8 @@ class NotesAdapter(private var notes: List<Notes>) :
         }
 
         holder.title.text = note.title
+
+        holder.itemView.setOnClickListener { listener.onNoteClick(note) }
     }
 
     override fun getItemCount(): Int {

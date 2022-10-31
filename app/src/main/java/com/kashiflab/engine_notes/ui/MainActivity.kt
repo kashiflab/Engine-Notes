@@ -6,19 +6,17 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kashiflab.engine_notes.R
 import com.kashiflab.engine_notes.data.models.Notes
 import com.kashiflab.engine_notes.databinding.ActivityMainBinding
 import com.kashiflab.engine_notes.ui.adapter.NotesAdapter
+import com.kashiflab.engine_notes.ui.adapter.OnNoteClickListener
+import com.kashiflab.engine_notes.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
+class MainActivity : AppCompatActivity(), OnNoteClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        adapter = NotesAdapter(emptyList())
+        adapter = NotesAdapter(emptyList(), this)
 
         noteRV.layoutManager = LinearLayoutManager(this)
         noteRV.setHasFixedSize(true)
@@ -49,5 +47,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateNoteActivity::class.java))
         }
 
+    }
+
+    override fun onNoteClick(note: Notes) {
+        startActivity(Intent(this, CreateNoteActivity::class.java).putExtra("note", note))
     }
 }
