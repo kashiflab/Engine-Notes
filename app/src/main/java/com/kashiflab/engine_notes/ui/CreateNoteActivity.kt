@@ -6,6 +6,7 @@ import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.kashiflab.engine_notes.data.models.Notes
 import com.kashiflab.engine_notes.data.utils.AppUtils
 import com.kashiflab.engine_notes.databinding.ActivityCreateNoteBinding
@@ -24,6 +25,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityCreateNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -46,8 +48,10 @@ class CreateNoteActivity : AppCompatActivity() {
             note?.title = noteTitle.text.trim().toString()
             note?.desc = noteDesc.text.trim().toString()
             updateNote(note!!)
-        }else{
+        }else if(noteDesc.text.trim().toString().isNotEmpty()){
             insertNote(noteTitle.text.trim().toString(), noteDesc.text.trim().toString(), AppUtils.getDateTime(), "Me")
+        }else{
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

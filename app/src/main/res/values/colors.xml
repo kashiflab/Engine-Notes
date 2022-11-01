@@ -12,4 +12,7 @@
     <color name="secondaryColor">#7DEDFF</color>
     <color name="accentColor">#96BAFF</color>
     <color name="secondaryDark">#88FFF7</color>
+
+    <color name="accentColorLight">#EEF5FF</color>
+    <color name="grey">#807E7E</color>
 </resources>

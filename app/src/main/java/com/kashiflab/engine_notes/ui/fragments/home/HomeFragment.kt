@@ -13,13 +13,12 @@ import com.kashiflab.engine_notes.data.models.Notes
 import com.kashiflab.engine_notes.databinding.FragmentHomeBinding
 import com.kashiflab.engine_notes.ui.CreateNoteActivity
 import com.kashiflab.engine_notes.ui.adapter.NotesAdapter
-import com.kashiflab.engine_notes.ui.adapter.OnNoteClickListener
+import com.kashiflab.engine_notes.ui.adapter.OnItemClickListener
 import com.kashiflab.engine_notes.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnNoteClickListener {
+class HomeFragment : Fragment(), OnItemClickListener<Notes> {
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -54,8 +53,8 @@ class HomeFragment : Fragment(), OnNoteClickListener {
         return binding.root
     }
 
-    override fun onNoteClick(note: Notes) {
-        startActivity(Intent(context, CreateNoteActivity::class.java).putExtra("note", note))
+    override fun onNoteClick(data: Notes) {
+        startActivity(Intent(context, CreateNoteActivity::class.java).putExtra("note", data))
     }
 
 }

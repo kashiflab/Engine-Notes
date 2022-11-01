@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kashiflab.engine_notes.R
 import com.kashiflab.engine_notes.data.models.Notes
 
-class NotesAdapter(private var notes: List<Notes>, private val listener: OnNoteClickListener) :
+class NotesAdapter(private var notes: List<Notes>, private val listener: OnItemClickListener<Notes>) :
     RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title)
