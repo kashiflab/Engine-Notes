@@ -11,7 +11,7 @@ data class Notes(
     val id: Int,
     var title: String,
     var desc: String,
-    var categoryId: Int = 0,
+    var categoryId: Int,
     var tag_id: List<Int> = emptyList(),
 //    @Ignore
 //    @Relation(entity = Notes::class,parentColumn = "note_id",entityColumn = "note_id")

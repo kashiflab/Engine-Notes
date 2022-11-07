@@ -41,7 +41,7 @@ class CategoriesFragment : Fragment(), OnItemClickListener<Category> {
         binding.categoriesRV.layoutManager = GridLayoutManager(context, 2)
         binding.categoriesRV.setHasFixedSize(true)
 
-        adapter = CategoryAdapter(emptyList(), this)
+        adapter = CategoryAdapter(emptyList(), this, false)
         binding.categoriesRV.adapter = adapter
 
         categoriesViewModel.allCategories.observe(viewLifecycleOwner, Observer {

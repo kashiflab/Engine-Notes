@@ -2,6 +2,7 @@ package com.kashiflab.engine_notes.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.kashiflab.engine_notes.data.models.Category
@@ -9,7 +10,7 @@ import com.kashiflab.engine_notes.data.models.Category
 @Dao
 interface CategoryDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCategory(category: Category)
 
     @Query("SELECT * FROM category_table")

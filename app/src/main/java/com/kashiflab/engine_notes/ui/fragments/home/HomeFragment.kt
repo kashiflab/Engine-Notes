@@ -43,6 +43,9 @@ class HomeFragment : Fragment(), OnItemClickListener<Notes> {
         mainViewModel.allNotes.observe(viewLifecycleOwner, Observer {
             if(it.isNotEmpty()){
                 adapter.setNotesList(it)
+                binding.nothingToShow.visibility = View.GONE
+            }else{
+                binding.nothingToShow.visibility = View.VISIBLE
             }
         })
 

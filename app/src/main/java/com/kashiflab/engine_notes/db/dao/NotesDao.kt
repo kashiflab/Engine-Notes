@@ -12,6 +12,9 @@ interface NotesDao {
     @Query("SELECT * FROM notes_table ORDER BY createdOn ASC")
     suspend fun getAllNotes() : List<Notes>
 
+    @Query("SELECT * FROM notes_table WHERE categoryId=:catId")
+    suspend fun getNotesByCategoryId(catId: Int) : List<Notes>
+
     @Update
     suspend fun updateNote(note: Notes)
 
