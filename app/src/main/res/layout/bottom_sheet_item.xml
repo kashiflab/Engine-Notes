@@ -11,7 +11,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/checkBox"
-        android:text="Category"
+        android:buttonTint="@color/accentColor"
+        android:textAppearance="@style/SemiBoldFont"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

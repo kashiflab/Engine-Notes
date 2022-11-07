@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
@@ -45,7 +46,9 @@ class CreateNoteActivity : AppCompatActivity(), OnItemClickListener<Category> {
         adapter = CategoryAdapter(emptyList(), this, true)
 
         mainViewModel.allCategories.observe(this, Observer {
-            if(it!=null){
+            if(it!=null && it.isNotEmpty()){
+                categoryTitle.text = it[0].categoryName
+                categoryIcon.setBackgroundResource(it[0].categoryIcon)
                 adapter.setCategoriesList(it)
             }
 
@@ -66,7 +69,7 @@ class CreateNoteActivity : AppCompatActivity(), OnItemClickListener<Category> {
     }
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialog)
         bottomSheetDialog.setContentView(R.layout.bottom_sheet)
 
         bottomSheetDialog.categoriesRVBT.layoutManager = LinearLayoutManager(this)
