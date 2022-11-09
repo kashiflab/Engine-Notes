@@ -10,6 +10,7 @@ data class Tags(
     @ColumnInfo(name = "tag_id")
     var id: Int,
     var tagName: String,
+    var isSelected: Boolean,
     var createdOn: String,
     var createdBy: String,
     var modifiedOn: String,

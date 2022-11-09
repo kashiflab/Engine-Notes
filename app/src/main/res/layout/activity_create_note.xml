@@ -116,7 +116,6 @@
             android:padding="5dp"
             android:id="@+id/labelsTv"
             android:layout_width="0dp"
-            android:text="Tag1\t\t|\t\tTag2"
             android:textAppearance="@style/MediumFont"
             android:textColor="@color/grey"
             android:textSize="12sp"

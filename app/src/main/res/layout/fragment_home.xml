@@ -69,7 +69,7 @@
                 android:id="@+id/pin1"
                 app:layout_constraintTop_toBottomOf="@id/pinnedNote1Desc"
                 app:layout_constraintStart_toStartOf="@id/pinnedNote1Desc"
-                android:src="@drawable/pin"
+                android:src="@drawable/unpin"
                 android:layout_width="25dp"
                 android:layout_height="25dp"/>
 
@@ -125,7 +125,7 @@
                 android:id="@+id/pin2"
                 app:layout_constraintTop_toBottomOf="@id/pinnedNote2Desc"
                 app:layout_constraintStart_toStartOf="@id/pinnedNote2Desc"
-                android:src="@drawable/pin"
+                android:src="@drawable/unpin"
                 android:layout_width="20dp"
                 android:layout_height="20dp"/>
 

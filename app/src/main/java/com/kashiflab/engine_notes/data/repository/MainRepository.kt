@@ -4,12 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kashiflab.engine_notes.data.models.Category
 import com.kashiflab.engine_notes.data.models.Notes
+import com.kashiflab.engine_notes.data.models.Tags
 import com.kashiflab.engine_notes.db.NotesDB
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainRepository @Inject constructor (private val notesDB: NotesDB) : NotesRepository, CategoriesRepository {
+class MainRepository @Inject constructor (private val notesDB: NotesDB)
+    : NotesRepository,
+    CategoriesRepository,
+    TagsRepository {
 
     private val _allNotes = MutableLiveData<List<Notes>>()
     val allNotes : LiveData<List<Notes>>
@@ -18,6 +22,14 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB) : NotesR
     private val _allCategories = MutableLiveData<List<Category>>()
     val allCategories: LiveData<List<Category>>
     get() = _allCategories
+
+    private val _allTags = MutableLiveData<List<Tags>>()
+    val allTags: LiveData<List<Tags>>
+    get() = _allTags
+
+    private val _tagNames = MutableLiveData<List<String>>()
+    val tagNames: LiveData<List<String>>
+        get() = _tagNames
 
     private var notesCount : Int = 0
 
@@ -66,6 +78,35 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB) : NotesR
             }
         }
         return 0
+    }
+
+    override suspend fun insertTag(tags: Tags) {
+        notesDB.tagsDao().insertTag(tags)
+        getAllTags()
+    }
+
+    override suspend fun getAllTags() {
+        val tags = notesDB.tagsDao().getAllTags()
+        _allTags.postValue(tags)
+    }
+
+    override suspend fun getTagsName(tagsId: ArrayList<Int>) {
+        getAllTags()
+        val list : MutableList<String> = ArrayList()
+        _allTags.value?.forEach {
+            if(tagsId.contains(it.id)){
+                list.add(it.tagName)
+            }
+        }
+        _tagNames.postValue(list)
+    }
+
+    override suspend fun updateTag(tags: Tags) {
+        notesDB.tagsDao().updateTag(tags)
+    }
+
+    override suspend fun deleteTag(tags: Tags) {
+        notesDB.tagsDao().deleteTag(tags)
     }
 
 }

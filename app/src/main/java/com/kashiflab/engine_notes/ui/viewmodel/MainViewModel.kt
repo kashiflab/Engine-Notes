@@ -1,13 +1,13 @@
 package com.kashiflab.engine_notes.ui.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kashiflab.engine_notes.R
 import com.kashiflab.engine_notes.data.models.Category
 import com.kashiflab.engine_notes.data.models.Notes
 import com.kashiflab.engine_notes.data.repository.MainRepository
-import com.kashiflab.engine_notes.data.repository.NotesRepository
 import com.kashiflab.engine_notes.data.utils.AppUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,6 +21,9 @@ class MainViewModel @Inject constructor(private val repo: MainRepository): ViewM
 
     val allCategories: LiveData<List<Category>>
     get() = repo.allCategories
+
+    val tagsName: LiveData<List<String>>
+    get() = repo.tagNames
 
     private val categories : MutableList<Category> = arrayListOf(
         Category(1,"Work Notes", R.drawable.work_notes, AppUtils.getDateTime(),"Admin","",""),
@@ -65,7 +68,13 @@ class MainViewModel @Inject constructor(private val repo: MainRepository): ViewM
         return repo.getCategoryId(categoryName)
     }
 
-    fun getCategories(){
+    fun getTagsName(tagsId: ArrayList<Int>) {
+        viewModelScope.launch {
+            repo.getTagsName(tagsId)
+        }
+    }
+
+    private fun getCategories(){
         viewModelScope.launch {
             repo.getAllCategories()
         }
