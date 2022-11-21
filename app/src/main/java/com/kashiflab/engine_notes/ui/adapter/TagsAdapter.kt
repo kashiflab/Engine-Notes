@@ -64,8 +64,8 @@ class TagsAdapter(private var tagsList: List<Tags>,
             val obj = tagsList[position]
 
             holder.checkBox.text = obj.tagName
-            holder.checkBox.isChecked = obj.isSelected
             holder.checkBox.setOnCheckedChangeListener(null)
+            holder.checkBox.isChecked = obj.isSelected
 
             holder.checkBox.setOnCheckedChangeListener { _, b ->
                 obj.isSelected = b
@@ -76,6 +76,10 @@ class TagsAdapter(private var tagsList: List<Tags>,
 
     override fun getItemCount(): Int {
         return tagsList.size +1
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     override fun getItemViewType(position: Int): Int {

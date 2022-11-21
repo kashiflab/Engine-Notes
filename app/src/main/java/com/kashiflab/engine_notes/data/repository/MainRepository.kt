@@ -31,6 +31,7 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB)
     val tagNames: LiveData<List<String>>
         get() = _tagNames
 
+    private var tagsList: List<Tags> = ArrayList()
     private var notesCount : Int = 0
 
     override suspend fun getNotes() {
@@ -86,14 +87,14 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB)
     }
 
     override suspend fun getAllTags() {
-        val tags = notesDB.tagsDao().getAllTags()
-        _allTags.postValue(tags)
+        tagsList = notesDB.tagsDao().getAllTags()
+        _allTags.postValue(tagsList)
     }
 
     override suspend fun getTagsName(tagsId: ArrayList<Int>) {
         getAllTags()
         val list : MutableList<String> = ArrayList()
-        _allTags.value?.forEach {
+        tagsList.forEach {
             if(tagsId.contains(it.id)){
                 list.add(it.tagName)
             }

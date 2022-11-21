@@ -60,16 +60,24 @@ class CreateNoteActivity : AppCompatActivity(), OnItemClickListener<Category> {
 
         adapter = CategoryAdapter(emptyList(), this, true)
 
-        mainViewModel.allCategories.observe(this, Observer {
+        mainViewModel.allCategories.observe(this, Observer { it ->
             if(it!=null && it.isNotEmpty()){
-                categoryTitle.text = it[0].categoryName
-                categoryIcon.setBackgroundResource(it[0].categoryIcon)
+                var catName = it[0].categoryName
+                var catIcon = it[0].categoryIcon
+                if(note!=null){
+                    catName =
+                        it.firstOrNull { it1-> it1.id == note!!.categoryId }?.categoryName ?: it[0].categoryName
+                    catIcon =
+                        it.firstOrNull { it1-> it1.id == note!!.categoryId }?.categoryIcon ?: it[0].categoryIcon
+
+                }
+                categoryTitle.text = catName
+                categoryIcon.setBackgroundResource(catIcon)
                 adapter.setCategoriesList(it)
             }
 
         })
 
-        mainViewModel.getTagsName(tagsId)
         mainViewModel.tagsName.observe(this, Observer {
             var str  = ""
             it.forEach { a ->
@@ -164,7 +172,10 @@ class CreateNoteActivity : AppCompatActivity(), OnItemClickListener<Category> {
     private fun setData(){
         noteTitle.setText(note?.title)
         noteDesc.setText(note?.desc)
+        tagsId = note?.tag_id as ArrayList<Int>
+        categoryId = note?.categoryId!!
 
+        mainViewModel.getTagsName(tagsId)
     }
 
     override fun onBackPressed() {
