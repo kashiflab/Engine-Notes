@@ -189,4 +189,8 @@ class CreateNoteActivity : AppCompatActivity(), OnItemClickListener<Category> {
         categoryIcon.setBackgroundResource(data.categoryIcon)
     }
 
+    override fun onNoteLongClick(data: Category, position: Int) {
+//        TODO("Not yet implemented")
+    }
+
 }

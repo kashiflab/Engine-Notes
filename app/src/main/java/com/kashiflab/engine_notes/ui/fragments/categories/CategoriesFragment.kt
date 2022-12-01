@@ -59,4 +59,8 @@ class CategoriesFragment : Fragment(), OnItemClickListener<Category> {
     override fun onNoteClick(data: Category) {
         Toast.makeText(context, "Category Clicked", Toast.LENGTH_SHORT).show()
     }
+
+    override fun onNoteLongClick(data: Category, position: Int) {
+        // TODO("Not yet implemented")
+    }
 }

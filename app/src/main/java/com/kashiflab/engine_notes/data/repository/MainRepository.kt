@@ -1,5 +1,6 @@
 package com.kashiflab.engine_notes.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kashiflab.engine_notes.data.models.Category
@@ -10,32 +11,32 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainRepository @Inject constructor (private val notesDB: NotesDB)
-    : NotesRepository,
+class MainRepository @Inject constructor(private val notesDB: NotesDB) : NotesRepository,
     CategoriesRepository,
     TagsRepository {
 
     private val _allNotes = MutableLiveData<List<Notes>>()
-    val allNotes : LiveData<List<Notes>>
-    get() = _allNotes
+    val allNotes: LiveData<List<Notes>>
+        get() = _allNotes
 
     private val _allCategories = MutableLiveData<List<Category>>()
     val allCategories: LiveData<List<Category>>
-    get() = _allCategories
+        get() = _allCategories
 
     private val _allTags = MutableLiveData<List<Tags>>()
     val allTags: LiveData<List<Tags>>
-    get() = _allTags
+        get() = _allTags
 
     private val _tagNames = MutableLiveData<List<String>>()
     val tagNames: LiveData<List<String>>
         get() = _tagNames
 
     private var tagsList: List<Tags> = ArrayList()
-    private var notesCount : Int = 0
+    private var notesCount: Int = 0
 
     override suspend fun getNotes() {
         val notes = notesDB.noteDao().getAllNotes()
+        Log.i("AllNotes", "Size: ${notes.size}")
         _allNotes.postValue(notes)
     }
 
@@ -54,7 +55,19 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB)
         getNotes()
     }
 
-    override suspend fun getAllCategories(){
+    override suspend fun pinNote(note: Notes) {
+
+    }
+
+    override suspend fun unPinNote(note: Notes) {
+
+    }
+
+    override suspend fun deleteNote(note: Notes) {
+        notesDB.noteDao().deleteNote(note)
+    }
+
+    override suspend fun getAllCategories() {
         val categories = notesDB.categoryDao().getAllCategories()
         categories.forEach {
             getNotesByCategory(it.id)
@@ -63,18 +76,18 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB)
         _allCategories.postValue(categories)
     }
 
-    override suspend fun insertCategory(category: Category){
+    override suspend fun insertCategory(category: Category) {
         notesDB.categoryDao().insertCategory(category)
     }
 
-    override suspend fun updateCategory(category: Category){
+    override suspend fun updateCategory(category: Category) {
         notesDB.categoryDao().updateCategory(category)
         getAllCategories()
     }
 
-    fun getCategoryId(name: String) : Int{
+    fun getCategoryId(name: String): Int {
         _allCategories.value?.forEach {
-            if(it.categoryName == name){
+            if (it.categoryName == name) {
                 return it.id
             }
         }
@@ -93,9 +106,9 @@ class MainRepository @Inject constructor (private val notesDB: NotesDB)
 
     override suspend fun getTagsName(tagsId: ArrayList<Int>) {
         getAllTags()
-        val list : MutableList<String> = ArrayList()
+        val list: MutableList<String> = ArrayList()
         tagsList.forEach {
-            if(tagsId.contains(it.id)){
+            if (tagsId.contains(it.id)) {
                 list.add(it.tagName)
             }
         }

@@ -92,4 +92,8 @@ class TagsActivity : AppCompatActivity(), OnItemClickListener<Tags>, AddTagClick
             tagsViewModel.insertTag(tag)
         }
     }
+
+    override fun onNoteLongClick(data: Tags, position: Int) {
+//        TODO("Not yet implemented")
+    }
 }

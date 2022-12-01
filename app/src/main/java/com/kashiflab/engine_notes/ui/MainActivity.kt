@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 //        supportActionBar?.hide();//Ocultar ActivityBar anterior
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
 
         val navView: BottomNavigationView = binding.navView
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_categories, R.id.navigation_favorites
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 }

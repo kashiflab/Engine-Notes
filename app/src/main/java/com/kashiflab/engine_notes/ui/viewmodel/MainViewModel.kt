@@ -52,6 +52,12 @@ class MainViewModel @Inject constructor(private val repo: MainRepository): ViewM
         }
     }
 
+    fun deleteNote(note: Notes){
+        viewModelScope.launch {
+            repo.deleteNote(note)
+        }
+    }
+
     fun insertNote(note: Notes){
         viewModelScope.launch {
             repo.insertNote(note)
